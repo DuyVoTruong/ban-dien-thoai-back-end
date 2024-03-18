@@ -1,27 +1,42 @@
 package com.example.bandienthoai.controller;
 
 import com.example.bandienthoai.model.Phone;
+import com.example.bandienthoai.service.PhoneService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/ban-dien-thoai/phone")
 public class PhoneController {
+
+    @Autowired
+    private PhoneService phoneService;
+
     @GetMapping("/all")
     public ResponseEntity<List> getAllPhone(){
-        List<Phone> phones = new ArrayList<Phone>();
-        phones.add(new Phone(1,"Samsung A30","Samsung",3000000,"tot" ));
-        phones.add(new Phone(2,"Samsung A40","Samsung",4000000,"tot" ));
-        phones.add(new Phone(3,"Samsung A50","Samsung",5000000,"tot" ));
-        phones.add(new Phone(4,"Samsung A60","Samsung",6000000,"tot" ));
-        phones.add(new Phone(5,"Samsung A70","Samsung",7000000,"tot" ));
-        phones.add(new Phone(6,"Samsung A80","Samsung",8000000,"tot" ));
+        List phones = phoneService.getAllPhone();
         return new ResponseEntity<>(phones, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Phone> addPhone(@RequestBody Phone phone){
+        Phone savedPhone = phoneService.addPhone(phone);
+        return new ResponseEntity<>(savedPhone, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<Phone> updatePhone(@RequestBody Phone phone){
+        Phone updatedPhone = phoneService.updatePhone(phone);
+        return new ResponseEntity<>(updatedPhone, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePhone(@PathVariable long id){
+        phoneService.deletePhone(id);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 }
