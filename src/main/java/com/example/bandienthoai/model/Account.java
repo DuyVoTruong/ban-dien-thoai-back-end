@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "phone")
+@Table(name = "account")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Phone {
-
+@NoArgsConstructor
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String brand;
-    private Long price;
-    private String description;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+    private String password;
+    private String role;
 }

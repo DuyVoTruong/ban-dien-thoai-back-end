@@ -1,7 +1,7 @@
 package com.example.bandienthoai.service.impl;
 
 import com.example.bandienthoai.model.Phone;
-import com.example.bandienthoai.repository.PhoneRespository;
+import com.example.bandienthoai.repository.PhoneRepository;
 import com.example.bandienthoai.service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 public class PhoneServiceImpl implements PhoneService {
 
     @Autowired
-    private PhoneRespository phoneRespository;
+    private PhoneRepository phoneRespository;
 
     @Override
     public Phone addPhone(Phone phone) {
