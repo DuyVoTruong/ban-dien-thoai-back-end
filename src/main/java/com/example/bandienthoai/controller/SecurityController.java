@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:3000", "https://ban-dien-thoai-front-end.vercel.app/"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://ban-dien-thoai-front-end.vercel.app"})
 public class SecurityController {
     @Autowired
     private AuthenticationManager authenticationManager;
