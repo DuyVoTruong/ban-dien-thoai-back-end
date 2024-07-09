@@ -10,4 +10,5 @@ public interface PhoneService {
     void deletePhone(long id);
     Phone updatePhone(Phone phone);
     List getAllPhone();
+    Phone getPhoneById(long id);
 }

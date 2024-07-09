@@ -1,12 +1,14 @@
 package com.example.bandienthoai.controller;
 
+import com.example.bandienthoai.exception.CustomException;
+import com.example.bandienthoai.utils.Role;
 import com.example.bandienthoai.config.CustomUserDetails;
 import com.example.bandienthoai.config.UserService;
 import com.example.bandienthoai.jwt.JwtTokenProvider;
 import com.example.bandienthoai.model.Account;
-import com.example.bandienthoai.payload.AccountResponse;
-import com.example.bandienthoai.payload.LoginRequest;
-import com.example.bandienthoai.payload.LoginResponse;
+import com.example.bandienthoai.payload.response.AccountResponse;
+import com.example.bandienthoai.payload.request.LoginRequest;
+import com.example.bandienthoai.payload.response.LoginResponse;
 import com.example.bandienthoai.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -85,13 +85,25 @@ public class SecurityController {
             account.setRole(customUserDetails.getUser().getRole());
             return new ResponseEntity(new LoginResponse("success", jwt, account), HttpStatus.OK);
         } catch (Exception e){
-            return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+            return new ResponseEntity(new LoginResponse("false","",new AccountResponse()), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody Account acc){
         acc.setPassword(passwordEncoder.encode(acc.getPassword()));
+        if(checkExist(acc)){
+            throw new CustomException("400", "Email da ton tai!");
+        }
+        if(acc.getRole() == ""){
+            acc.setRole(Role.USER.name().toUpperCase());
+        } else if(acc.getRole().equalsIgnoreCase(Role.USER.name())){
+            acc.setRole(Role.USER.name().toUpperCase());
+        } else if(acc.getRole().equalsIgnoreCase(Role.SELLER.name())){
+            acc.setRole(Role.SELLER.name().toUpperCase());
+        } else if(acc.getRole().equalsIgnoreCase(Role.ADMIN.name())){
+            acc.setRole(Role.ADMIN.name().toUpperCase());
+        }
         Object savedAccount = accountRepository.save(acc);
         if(savedAccount==null){
             return new ResponseEntity<>("fail", HttpStatus.CONFLICT);
@@ -119,6 +131,14 @@ public class SecurityController {
                 return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
         } catch (Exception ex) {
             return new ResponseEntity("fail", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    public boolean checkExist(Account account){
+        if(accountRepository.findByUsername(account.getUsername())!=null){
+            return true;
+        } else {
+            return false;
         }
     }
 }

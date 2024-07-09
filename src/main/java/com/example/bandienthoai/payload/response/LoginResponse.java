@@ -1,6 +1,6 @@
-package com.example.bandienthoai.payload;
+package com.example.bandienthoai.payload.response;
 
-import com.example.bandienthoai.model.Account;
+import com.example.bandienthoai.payload.response.AccountResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

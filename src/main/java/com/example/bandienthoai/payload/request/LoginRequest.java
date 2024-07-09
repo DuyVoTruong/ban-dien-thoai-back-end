@@ -1,4 +1,4 @@
-package com.example.bandienthoai.payload;
+package com.example.bandienthoai.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

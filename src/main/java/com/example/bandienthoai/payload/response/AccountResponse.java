@@ -1,4 +1,4 @@
-package com.example.bandienthoai.payload;
+package com.example.bandienthoai.payload.response;
 
 import lombok.Getter;
 import lombok.Setter;

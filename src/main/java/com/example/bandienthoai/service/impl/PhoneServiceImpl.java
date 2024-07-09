@@ -37,4 +37,10 @@ public class PhoneServiceImpl implements PhoneService {
     public List<Phone> getAllPhone() {
         return phoneRespository.findAll();
     }
+
+    @Override
+    public Phone getPhoneById(long id) {
+        Phone phone = phoneRespository.findById(id).orElse(null);
+        return phone;
+    }
 }

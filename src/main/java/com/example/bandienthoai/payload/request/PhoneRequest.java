@@ -1,27 +1,22 @@
-package com.example.bandienthoai.model;
+package com.example.bandienthoai.payload.request;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-@Entity
-@Table(name = "phone")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Phone {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+@NoArgsConstructor
+public class PhoneRequest {
     private Long id;
     private String name;
     private String brand;
-    private Long price;
+    private String price;
     private String description;
+    private MultipartFile file;
     private String url;
     private Long sellerId;
 }
